@@ -1,0 +1,12 @@
+.timer-display {
+  font-family: "Helvetica Neue", Arial, sans-serif;
+  font-size: 36px;
+  font-weight: 600;
+  padding: 12px 18px;
+  border-radius: 8px;
+  background: linear-gradient(90deg,#ffffff,#f6f9fc);
+  box-shadow: 0 2px 6px rgba(16,24,40,0.06);
+  display: inline-block;
+}
+
+.card { border-radius: 10px; }

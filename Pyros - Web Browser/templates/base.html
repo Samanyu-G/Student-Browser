@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Student Productivity</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="{{ url_for('index') }}">Student Productivity</a>
+    <div class="collapse navbar-collapse">
+      <ul class="navbar-nav me-auto">
+        <li class="nav-item"><a class="nav-link" href="{{ url_for('index') }}">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="{{ url_for('stats') }}">Stats</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="container my-4">
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      {% for category, msg in messages %}
+      <div class="alert alert-{{ 'info' if category=='info' else ('success' if category=='success' else ('warning' if category=='warning' else 'secondary')) }} alert-sm" role="alert">
+        {{ msg }}
+      </div>
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
+
+  {% block content %}{% endblock %}
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="{{ url_for('static', filename='timer.js') }}"></script>
+</body>
+</html>

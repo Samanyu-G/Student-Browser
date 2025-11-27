@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row">
+  <div class="col-lg-8">
+    <div class="card mb-3 shadow-sm">
+      <div class="card-body">
+        <h5 class="card-title">Quick Quote</h5>
+        <p class="card-text text-muted">“Focus on progress, not perfection.”</p>
+      </div>
+    </div>
+
+    <!-- Pomodoro -->
+    <div class="card mb-3 shadow-sm">
+      <div class="card-body">
+        <h5 class="card-title">Pomodoro Timer</h5>
+        <div class="row align-items-center">
+          <div class="col-auto">
+            <div id="timer-display" class="timer-display">00:00</div>
+            <div class="text-muted small mt-1" id="timer-mode">Idle</div>
+          </div>
+          <div class="col">
+            <div class="mb-2">
+              <label>Study minutes</label>
+              <input id="study-min" type="number" class="form-control" value="25" min="1" max="180">
+            </div>
+            <div class="mb-2">
+              <label>Break minutes</label>
+              <input id="break-min" type="number" class="form-control" value="5" min="1" max="60">
+            </div>
+            <div class="d-flex gap-2">
+              <button id="start-btn" class="btn btn-primary">Start Study</button>
+              <button id="stop-btn" class="btn btn-outline-secondary">Stop</button>
+              <form method="post" class="ms-auto">
+                <input type="hidden" name="log_session" value="1">
+                <input type="hidden" name="study_minutes" id="log-study" value="25">
+                <input type="hidden" name="break_minutes" id="log-break" value="5">
+                <button class="btn btn-sm btn-success" type="submit">Log Session Now</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Stats summary -->
+    <div class="card mb-3 shadow-sm">
+      <div class="card-body">
+        <h5 class="card-title">Study Summary</h5>
+        <p>Total study time: <strong>{{ total }} minutes</strong></p>
+        <p>Average session: <strong>{{ avg }}</strong> minutes</p>
+        <p>Sessions completed: <strong>{{ sessions }}</strong></p>
+        <a href="{{ url_for('open_browser') }}" class="btn btn-dark">Open Study Browser</a>
+        <a href="{{ url_for('stats') }}" class="btn btn-outline-primary btn-sm">View full stats & graph</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg-4">
+    <!-- To-do card -->
+    <div class="card shadow-sm mb-3">
+      <div class="card-body">
+        <h5 class="card-title">To-Do</h5>
+        <form method="post" class="mb-2">
+          <div class="input-group">
+            <input type="text" name="new_todo" class="form-control" placeholder="New task...">
+            <button class="btn btn-primary" type="submit">Add</button>
+          </div>
+        </form>
+
+        <ul class="list-group">
+          {% for id, text, done in todos %}
+          <li class="list-group-item d-flex justify-content-between align-items-center {% if done %}list-group-item-success{% endif %}">
+            <div>
+              {% if done %}<s>{{ text }}</s>{% else %}{{ text }}{% endif %}
+            </div>
+            <div class="btn-group btn-group-sm" role="group">
+              {% if not done %}
+              <form method="post" action="{{ url_for('todo_done', todo_id=id) }}" style="display:inline;">
+                <button class="btn btn-sm btn-outline-success">Done</button>
+              </form>
+              {% else %}
+              <form method="post" action="{{ url_for('todo_undone', todo_id=id) }}" style="display:inline;">
+                <button class="btn btn-sm btn-outline-secondary">Undo</button>
+              </form>
+              {% endif %}
+              <form method="post" action="{{ url_for('todo_delete', todo_id=id) }}" style="display:inline;">
+                <button class="btn btn-sm btn-outline-danger">Delete</button>
+              </form>
+            </div>
+          </li>
+          {% else %}
+          <li class="list-group-item text-muted">No tasks yet.</li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  // update hidden log inputs when user changes numbers
+  const studyEl = document.getElementById("study-min");
+  const breakEl = document.getElementById("break-min");
+  function updateHidden() {
+    document.getElementById("log-study").value = studyEl.value;
+    document.getElementById("log-break").value = breakEl.value;
+  }
+  studyEl.addEventListener("change", updateHidden);
+  breakEl.addEventListener("change", updateHidden);
+</script>
+{% endblock %}

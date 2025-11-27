@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card shadow-sm">
+  <div class="card-body">
+    <h5 class="card-title">Study Time Graph</h5>
+    {% if not has_data %}
+      <p class="text-muted">No study data recorded yet. Use the Pomodoro logger to add a session.</p>
+      <a href="{{ url_for('index') }}" class="btn btn-outline-primary btn-sm">Back</a>
+    {% else %}
+      <img src="{{ url_for('stats_plot_png') }}" alt="Study graph" class="img-fluid mb-3" style="border:1px solid #eee; border-radius:6px;">
+      <div>
+        <a href="{{ url_for('index') }}" class="btn btn-outline-secondary btn-sm">Back</a>
+        <a href="{{ url_for('stats_plot_png') }}" class="btn btn-primary btn-sm" download>Download PNG</a>
+      </div>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}
