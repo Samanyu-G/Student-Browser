@@ -90,7 +90,7 @@ If PyQtWebEngine fails, install manually:
 pip install PyQt5 PyQtWebEngine
 
 4️⃣ Run the Flask Dashboard
-python app.py
+python StudentBrowser.py
 
 
 Open:
@@ -113,7 +113,7 @@ Ensure Python is installed correctly
 
 📁 Folder Structure
 Pyros - Web Browser/
-│ app.py
+│ StudentBrowser.py
 │ study_browser.py
 │ blocked_sites.json
 │ productivity.db
